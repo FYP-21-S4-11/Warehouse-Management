@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-    <title>{% block title %}Product Menu Page{% endblock %}</title>
+    <title>{% block title %}Admin Menu Page{% endblock %}</title>
     <style>
         .container{
         margin-right: auto;
@@ -20,25 +20,26 @@
 
 </head>
 <body>
+
 <!--    navigation bar-->
 <nav class="navbar bg-steel">
-<a class="navbar-brand" href="{{ url_for('adminhome') }}">Warehouse Management</a>
+<a class="navbar-brand" href="{{ url_for('supervisorhome') }}">Warehouse Management</a>
   <div id="navbarNav">
     <ul class="navbar-nav" id="navbarUL">
-        <li class="nav-item navBarIL"><a class="nav-link navA" href="{{ url_for('adminhome') }}">Profile</a></li>
+        <li class="nav-item navBarIL"><a class="nav-link navA" href="{{ url_for('supervisorhome') }}">Profile</a></li>
         <li class="nav-item navBarIL"><a class="nav-link navA" href="{{ url_for('logout') }}">Logout</a></li>
     </ul>
   </div>
 </nav>
 <div class="sidebar">
-    <a class="active" href="{{ url_for('productmenu') }}">Product</a>
-    <a class="active" href="{{ url_for('suppliermenu') }}">Supplier</a>
-    <a class="active" href="{{ url_for('storemenu') }}">Store</a>
-    <a class="active" href="{{ url_for('adminhome') }}">Stock</a>
+    <a class="active" href="{{ url_for('adminmenu') }}">Admin</a>
+    <a class="active" href="{{ url_for('supervisorhome') }}">Adjustments</a>
+    <a class="active" href="{{ url_for('supervisorhome') }}">Stock</a>
+    <a class="active" href="{{ url_for('supervisorhome') }}">Report</a>
 </div>
 <div class="container">
 <div class="header">
-    <h1><strong>{% block header %}Product Menu{% endblock %}</strong></h1>
+    <h1><strong>{% block header %}Admin Menu{% endblock %}</strong></h1>
 </div>
 <br>
 
@@ -55,17 +56,13 @@
     <div class="manage">
         <div class="row">
             <br><br>
-            <a href="/productadd" name="myButton" class="menupages"><span>Add Product</span></a>
+            <a href="/adminadd" name="myButton" class = "menupages"><span>Add Admin</span></a>
             <br><br><br>
-            <a href="/productupdate" name="myButton" class = "menupages"><span>Update Product</span></a>
+            <a href="#" name="myButton" class="menupages"><span>Update Admin</span></a>
             <br><br><br>
-            <a href="/productdelete" name="myButton" class = "menupages"><span>Delete Product</span></a>
+            <a href="/admindelete" name="myButton" class="menupages"><span>Delete Admin</span></a>
             <br><br><br>
-            <a href="#" name="myButton" class = "menupages"><span>View Product</span></a>
-            <br><br><br>
-            <a href="#" name="myButton" class="menupages"><span>Inventory In</span></a>
-            <br><br><br>
-            <a href="#" name="myButton" class="menupages"><span>Inventory Out</span></a>
+            <a href="#" name="myButton" class="menupages"><span>View Admin</span></a>
         </div>
     </div>
     {% endblock %}
