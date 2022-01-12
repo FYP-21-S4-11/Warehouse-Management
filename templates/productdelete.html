@@ -6,15 +6,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-    <title>{% block title %}Store Menu Page{% endblock %}</title>
+    <title>{% block title %}Product Add Page{% endblock %}</title>
     <style>
         .container{
         margin-right: auto;
         margin-left: auto;
+        width: 40%;
         }
         .header {
         padding: 30px;
-        margin-left: 90px;
+        width: 50%;
         }
     </style>
 
@@ -38,7 +39,7 @@
 </div>
 <div class="container">
 <div class="header">
-    <h1><strong>{% block header %}Store Menu{% endblock %}</strong></h1>
+    <h1><strong>{% block header %}Product Add{% endblock %}</strong></h1>
 </div>
 <br>
 
@@ -51,20 +52,18 @@
         {{mess}}
         </div>
       {% endfor %}
-    {% block content %}
-    <div class="manage">
-        <div class="row">
-            <br><br>
-            <a href="/storeadd" name="myButton" class = "menupages"><span>Add Store</span></a>
-            <br><br><br>
-            <a href="#" name="myButton" class="menupages"><span>Update Store</span></a>
-            <br><br><br>
-            <a href="/storedelete" name="myButton" class="menupages"><span>Delete Store</span></a>
-            <br><br><br>
-            <a href="#" name="myButton" class="menupages"><span>View Store</span></a>
-        </div>
-    </div>
-    {% endblock %}
+
+{% block content %}
+    <form action = "#" method = "POST">
+        {{ form.hidden_tag() }}
+        {{ form.sku.label(class="form-label") }}
+        {{ form.sku(class="form-control") }}
+        <br>
+        <button type="submit" name="button" class="button">Submit</button>
+        <br><br>
+        <a href="/productmenu">Return to previous page</a>
+    </form>
+{% endblock %}
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
