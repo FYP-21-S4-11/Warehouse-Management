@@ -12,79 +12,75 @@ class LoginForm(FlaskForm):
 # Product Add Form
 class ProductAddForm(FlaskForm):
 	sku = StringField("SKU:", validators=[DataRequired()])
-	name = StringField("Name:", validators=[DataRequired()])
+	name = StringField("Product Name:", validators=[DataRequired()])
 	description = StringField("Description:", validators=[DataRequired()])
 	producttype = StringField("Product Type:", validators=[DataRequired()])
 	submit = SubmitField("Add Product")
 
-# Product Update Form
-class ProductUpdateForm(FlaskForm):
-	sku = StringField("SKU:", validators=[DataRequired()])
-	search = SubmitField("Search")
-	name = StringField("Name:", validators=[DataRequired()])
-	description = StringField("Description:", validators=[DataRequired()])
-	producttype = StringField("Product Type:", validators=[DataRequired()])
-	submit = SubmitField("Update Product")
-
 # Product Delete Form
 class ProductDeleteForm(FlaskForm):
-	sku = StringField("SKU:", validators=[DataRequired()])
+	sku = StringField("SKU:", validators=[DataRequired()], render_kw={"placeholder": "Enter SKU..."})
 	submit = SubmitField("Delete Product")
 
-# Product View Form
-class ProductViewForm(FlaskForm):
-	sku = StringField("SKU:", validators=[DataRequired()])
-	submit = SubmitField("View Product")
+# Product Search Form
+class ProductSearchForm(FlaskForm):
+	sku = StringField("SKU:", validators=[DataRequired()], render_kw={"placeholder": "Enter SKU..."})
+	submit = SubmitField("Search")
 
 # ==================================
 # Supplier Add Form
 class SupplierAddForm(FlaskForm):
 	code = StringField("Code:", validators=[DataRequired()])
-	name = StringField("Name:", validators=[DataRequired()])
-	phone = StringField("Phone:", validators=[DataRequired()])
-	address = StringField("Address:", validators=[DataRequired()])
+	name = StringField("Supplier Name:", validators=[DataRequired()])
+	phone = StringField("Supplier Phone:", validators=[DataRequired()])
+	address = StringField("Supplier Address:", validators=[DataRequired()])
 	submit = SubmitField("Add Supplier")
-
-# Supplier Update Form
-class SupplierUpdateForm(FlaskForm):
-	code = StringField("Code:", validators=[DataRequired()])
-	search = SubmitField("Search")
-	name = StringField("Name:", validators=[DataRequired()])
-	phone = StringField("Phone:", validators=[DataRequired()])
-	address = StringField("Address:", validators=[DataRequired()])
-	submit = SubmitField("Update Supplier")
 
 # Supplier Delete Form
 class SupplierDeleteForm(FlaskForm):
-	code = StringField("Code:", validators=[DataRequired()])
+	code = StringField("Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
 	submit = SubmitField("Delete Supplier")
 
-# Supplier View Form
-class SupplierViewForm(FlaskForm):
-	code = StringField("Code:", validators=[DataRequired()])
-	submit = SubmitField("View Supplier")
+# Supplier Search Form
+class SupplierSearchForm(FlaskForm):
+	code = StringField("Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
+	search = SubmitField("Search")
 
 # ==================================
 # Store Add Form
-class StoreAdddForm(FlaskForm):
+class StoreAddForm(FlaskForm):
 	code = StringField("Code:", validators=[DataRequired()])
 	location = StringField("Location:" , validators=[DataRequired()])
 	address = StringField("Address:", validators=[DataRequired()])
 	submit = SubmitField("Add Store")
 
-# Store Update Form
-class StoreUpdateForm(FlaskForm):
-	code = StringField("Code:", validators=[DataRequired()])
-	location = StringField("Location:" , validators=[DataRequired()])
-	address = StringField("Address:", validators=[DataRequired()])
-	submit = SubmitField("Update Store")
-
 # Store Delete Form
 class StoreDeleteForm(FlaskForm):
-	code = StringField("Code:", validators=[DataRequired()])
-	submit = SubmitField("Delete Store")
+	code = StringField("Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
+	submit = SubmitField("Search")
 
-# Store View Form
-class StoreViewForm(FlaskForm):
-	code = StringField("Code:", validators=[DataRequired()])
-	submit = SubmitField("View Store")
+# Store Search Form
+class StoreSearchForm(FlaskForm):
+	code = StringField("Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
+	submit = SubmitField("Search")
+
+
+# ==================================
+# Admin Add Form
+class AdminAddForm(FlaskForm):
+	name = StringField("Name:", validators=[DataRequired()])
+	username = StringField("Username:", validators=[DataRequired()])
+	password = PasswordField("Admin Password:", validators=[DataRequired()])
+	phone = StringField("Admin Phone:", validators=[DataRequired()])
+	address = StringField("Admin Address:", validators=[DataRequired()])
+	email = StringField("Admin Email:", validators=[DataRequired()])
+
+# Admin Delete Form
+class AdminDeleteForm(FlaskForm):
+	username = StringField("Username", validators=[DataRequired()], render_kw={"placeholder": "Enter Username..."})
+	submit = SubmitField("Delete Admin")
+
+# Admin Search Form
+class AdminSearchForm(FlaskForm):
+	username = StringField("Username", validators=[DataRequired()], render_kw={"placeholder": "Enter Username..."})
+	submit = SubmitField("Search")

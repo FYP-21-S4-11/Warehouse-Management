@@ -6,15 +6,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-    <title>{% block title %}Product Menu Page{% endblock %}</title>
+    <title>{% block title %}Admin View Page{% endblock %}</title>
     <style>
         .container{
         margin-right: auto;
         margin-left: auto;
+        width: 40%;
         }
         .header {
         padding: 30px;
-        margin-left: 90px;
+        width: 50%;
         }
     </style>
 
@@ -22,23 +23,23 @@
 <body>
 <!--    navigation bar-->
 <nav class="navbar bg-steel">
-<a class="navbar-brand" href="{{ url_for('adminhome') }}">Warehouse Management</a>
+<a class="navbar-brand" href="{{ url_for('supervisorhome') }}">Warehouse Management</a>
   <div id="navbarNav">
     <ul class="navbar-nav" id="navbarUL">
-        <li class="nav-item navBarIL"><a class="nav-link navA" href="{{ url_for('adminhome') }}">Profile</a></li>
+        <li class="nav-item navBarIL"><a class="nav-link navA" href="{{ url_for('supervisorhome') }}">Profile</a></li>
         <li class="nav-item navBarIL"><a class="nav-link navA" href="{{ url_for('logout') }}">Logout</a></li>
     </ul>
   </div>
 </nav>
 <div class="sidebar">
-    <a class="active" href="{{ url_for('productmenu') }}">Product</a>
-    <a class="active" href="{{ url_for('suppliermenu') }}">Supplier</a>
-    <a class="active" href="{{ url_for('storemenu') }}">Store</a>
-    <a class="active" href="{{ url_for('adminhome') }}">Stock</a>
+    <a class="active" href="{{ url_for('adminmenu') }}">Admin</a>
+    <a class="active" href="{{ url_for('supervisorhome') }}">Adjustments</a>
+    <a class="active" href="{{ url_for('supervisorhome') }}">Stock</a>
+    <a class="active" href="{{ url_for('supervisorhome') }}">Report</a>
 </div>
 <div class="container">
 <div class="header">
-    <h1><strong>{% block header %}Product Menu{% endblock %}</strong></h1>
+    <h1><strong>{% block header %}Admin View{% endblock %}</strong></h1>
 </div>
 <br>
 
@@ -51,24 +52,21 @@
         {{mess}}
         </div>
       {% endfor %}
-    {% block content %}
-    <div class="manage">
-        <div class="row">
-            <br><br>
-            <a href="/productadd" name="myButton" class="menupages"><span>Add Product</span></a>
-            <br><br><br>
-            <a href="#" name="myButton" class = "menupages"><span>Update Product</span></a>
-            <br><br><br>
-            <a href="/productdelete" name="myButton" class = "menupages"><span>Delete Product</span></a>
-            <br><br><br>
-            <a href="/productsearch" name="myButton" class = "menupages"><span>View Product</span></a>
-            <br><br><br>
-            <a href="#" name="myButton" class="menupages"><span>Inventory In</span></a>
-            <br><br><br>
-            <a href="#" name="myButton" class="menupages"><span>Inventory Out</span></a>
-        </div>
-    </div>
-    {% endblock %}
+    <form action = "/adminview" method = "POST">
+        <p>Full Name:<br><input class="form-control" type="text" value="{{ record[0] }}" name="Name" disabled readonly/></p>
+        <br>
+        <p>Username:<br><input class="form-control" type="text" value="{{ record[1] }}" name="Username" disabled readonly/></p>
+        <br>
+        <p>Password:<br><input class="form-control" type="text" value="{{ record[2] }}" name="Password" disabled readonly/></p>
+        <br>
+        <p>Admin Phone:<br><input class="form-control" type="text" value="{{ record[3] }}" name="Phone" disabled readonly/></p>
+        <br>
+        <p>Admin Address:<br><input class="form-control" type="text" value="{{ record[4] }}" name="Address" disabled readonly/></p>
+        <br>
+        <p>Admin Email:<br><input class="form-control" type="text" value="{{ record[5] }}" name="Email" disabled readonly/></p>
+        <br><br>
+        <a href="/adminmenu">Return to previous page</a>
+    </form>
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
