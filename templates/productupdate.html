@@ -53,19 +53,26 @@
         </div>
       {% endfor %}
 
-    <form action = "/productupdate" method = "POST">
-        <p>SKU:<br><input class="form-control" type="text" value="" name="SKU"/></p>
+{% block content %}
+    <form action = "#" method = "POST">
+        {{ form.hidden_tag() }}
+        {{ form.sku.label(class="form-label") }}
+        {{ form.sku(class="form-control") }}
         <br>
-        <p>Product Name:<br><input class="form-control" type="text" value="" name="Name"/></p>
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control") }}
         <br>
-        <p>Description:<br><input class="form-control" type="text" value="" name="Description"/></p>
+        {{ form.description.label(class="form-label") }}
+        {{ form.description(class="form-control") }}
         <br>
-        <p>Product Type:<br><input class="form-control" type="text" value="" name="Type"/></p>
+        {{ form.producttype.label(class="form-label") }}
+        {{ form.producttype(class="form-control") }}
         <br>
         <button type="submit" name="button" class="button">Submit</button>
         <br><br>
         <a href="/productmenu">Return to previous page</a>
     </form>
+{% endblock %}
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

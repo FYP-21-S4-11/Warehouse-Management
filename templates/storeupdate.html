@@ -6,21 +6,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-    <title>{% block title %}Supplier Menu Page{% endblock %}</title>
+    <title>{% block title %}Store Update Page{% endblock %}</title>
     <style>
         .container{
         margin-right: auto;
         margin-left: auto;
+        width: 40%;
         }
         .header {
         padding: 30px;
-        margin-left: 90px;
+        width: 50%;
         }
     </style>
 
 </head>
 <body>
-
 <!--    navigation bar-->
 <nav class="navbar bg-steel">
 <a class="navbar-brand" href="{{ url_for('adminhome') }}">Warehouse Management</a>
@@ -39,7 +39,7 @@
 </div>
 <div class="container">
 <div class="header">
-    <h1><strong>{% block header %}Supplier Menu{% endblock %}</strong></h1>
+    <h1><strong>{% block header %}Store Update{% endblock %}</strong></h1>
 </div>
 <br>
 
@@ -52,20 +52,24 @@
         {{mess}}
         </div>
       {% endfor %}
-    {% block content %}
-    <div class="manage">
-        <div class="row">
-            <br><br>
-            <a href="/supplieradd" name="myButton" class = "menupages"><span>Add Supplier</span></a>
-            <br><br><br>
-            <a href="/supplierupdate" name="myButton" class="menupages"><span>Update Supplier</span></a>
-            <br><br><br>
-            <a href="/supplierdelete" name="myButton" class="menupages"><span>Delete Supplier</span></a>
-            <br><br><br>
-            <a href="/suppliersearch" name="myButton" class="menupages"><span>View Supplier</span></a>
-        </div>
-    </div>
-    {% endblock %}
+
+{% block content %}
+    <form action = "#" method = "POST">
+        {{ form.hidden_tag() }}
+        {{ form.code.label(class="form-label") }}
+        {{ form.code(class="form-control") }}
+        <br>
+        {{ form.location.label(class="form-label") }}
+        {{ form.location(class="form-control") }}
+        <br>
+        {{ form.address.label(class="form-label") }}
+        {{ form.address(class="form-control") }}
+        <br>
+        <button type="submit" name="button" class="button">Submit</button>
+        <br><br>
+        <a href="/storemenu">Return to previous page</a>
+    </form>
+{% endblock %}
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
