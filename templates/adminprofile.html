@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-    <title>{% block title %}Product Update Page{% endblock %}</title>
+    <title>{% block title %}Profile Page{% endblock %}</title>
     <style>
         .container{
         margin-right: auto;
@@ -39,40 +39,25 @@
 </div>
 <div class="container">
 <div class="header">
-    <h1><strong>{% block header %}Product Update{% endblock %}</strong></h1>
+    <h1><strong>{% block header %}Profile{% endblock %}</strong></h1>
 </div>
 <br>
-
-  {# get_flashed_messages() is auto sent to the template with the flash() call #}
-      {% for mess in get_flashed_messages()  %}
-      <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <button type="button" class="fade-close close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        {{mess}}
-        </div>
-      {% endfor %}
-
-{% block content %}
-    <form action = "#" method = "POST">
-        {{ form.hidden_tag() }}
-        {{ form.sku.label(class="form-label") }}
-        {{ form.sku(class="form-control") }}
+    <form action = "/adminprofile" method = "POST">
+        <label class="form-label">Username:</label>
+        <p><input class="form-control" type="text" value="{{ userfound[0] }}" name="username" readonly></p>
+        <label class="form-label">Full Name:</label>
+        <p><input class="form-control" type="text" value="{{ userfound[1] }}" name="name" readonly></p>
+        <label class="form-label">Password:</label>
+        <p><input class="form-control" type="text" value="{{ userfound[2] }}" name="password" readonly></p>
+        <label class="form-label">Phone Number:</label>
+        <p><input class="form-control" type="text" value="{{ userfound[3] }}" name="phone" readonly></p>
+        <label class="form-label">Home Address:</label>
+        <p><input class="form-control" type="text" value="{{ userfound[4] }}" name="address" readonly></p>
+        <label class="form-label">Email Address:</label>
+        <p><input class="form-control" type="text" value="{{ userfound[5] }}" name="email" readonly></p>
         <br>
-        {{ form.name.label(class="form-label") }}
-        {{ form.name(class="form-control") }}
-        <br>
-        {{ form.description.label(class="form-label") }}
-        {{ form.description(class="form-control") }}
-        <br>
-        {{ form.producttype.label(class="form-label") }}
-        {{ form.producttype(class="form-control") }}
-        <br>
-        <button type="submit" name="button" class="button">Submit</button>
-        <br><br>
-        <a href="/productmenu">Return to previous page</a>
+        <a href="/adminhome">Return to home page</a>
     </form>
-{% endblock %}
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

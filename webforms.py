@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField, ValidationError, TextAreaField, SearchField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, ValidationError, TextAreaField, SearchField, IntegerField, DateField
 from wtforms.validators import DataRequired, EqualTo, Length
 from flask.views import View
 
@@ -12,69 +12,69 @@ class LoginForm(FlaskForm):
 # ==================================
 # Product Add Form
 class ProductAddForm(FlaskForm):
-	sku = StringField("SKU:", validators=[DataRequired()])
+	sku = StringField("Product SKU:", validators=[DataRequired()])
 	name = StringField("Product Name:", validators=[DataRequired()])
 	description = StringField("Description:", validators=[DataRequired()])
 	producttype = StringField("Product Type:", validators=[DataRequired()])
 
 # Product Update Form
 class ProductUpdateForm(FlaskForm):
-	sku = StringField("SKU:", validators=[DataRequired()])
+	sku = StringField("Product SKU:", validators=[DataRequired()])
 	name = StringField("Product Name:", validators=[DataRequired()])
 	description = StringField("Description:", validators=[DataRequired()])
 	producttype = StringField("Product Type:", validators=[DataRequired()])
 
 # Product Delete Form
 class ProductDeleteForm(FlaskForm):
-	sku = StringField("SKU:", validators=[DataRequired()], render_kw={"placeholder": "Enter SKU..."})
+	sku = StringField("Product SKU:", validators=[DataRequired()], render_kw={"placeholder": "Enter SKU..."})
 
 # Product Search Form
 class ProductSearchForm(FlaskForm):
-	sku = StringField("SKU:", validators=[DataRequired()], render_kw={"placeholder": "Enter SKU..."})
+	sku = StringField("Product SKU:", validators=[DataRequired()], render_kw={"placeholder": "Enter SKU..."})
 
 # ==================================
 # Supplier Add Form
 class SupplierAddForm(FlaskForm):
-	code = StringField("Code:", validators=[DataRequired()])
+	code = StringField("Supplier Code:", validators=[DataRequired()])
 	name = StringField("Supplier Name:", validators=[DataRequired()])
 	phone = StringField("Supplier Phone:", validators=[DataRequired()])
 	address = StringField("Supplier Address:", validators=[DataRequired()])
 
 # Supplier Update Form
 class SupplierUpdateForm(FlaskForm):
-	code = StringField("Code:", validators=[DataRequired()])
+	code = StringField("Supplier Code:", validators=[DataRequired()])
 	name = StringField("Supplier Name:", validators=[DataRequired()])
 	phone = StringField("Supplier Phone:", validators=[DataRequired()])
 	address = StringField("Supplier Address:", validators=[DataRequired()])
 
 # Supplier Delete Form
 class SupplierDeleteForm(FlaskForm):
-	code = StringField("Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
+	code = StringField("Supplier Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
 
 # Supplier Search Form
 class SupplierSearchForm(FlaskForm):
-	code = StringField("Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
+	code = StringField("Supplier Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
 
 # ==================================
 # Store Add Form
 class StoreAddForm(FlaskForm):
-	code = StringField("Code:", validators=[DataRequired()])
+	code = StringField("Store Code:", validators=[DataRequired()])
 	location = StringField("Location:" , validators=[DataRequired()])
 	address = StringField("Address:", validators=[DataRequired()])
 
 # Store Update Form
 class StoreUpdateForm(FlaskForm):
-	code = StringField("Code:", validators=[DataRequired()])
+	code = StringField("Store Code:", validators=[DataRequired()])
 	location = StringField("Location:" , validators=[DataRequired()])
 	address = StringField("Address:", validators=[DataRequired()])
 
 # Store Delete Form
 class StoreDeleteForm(FlaskForm):
-	code = StringField("Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
+	code = StringField("Store Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
 
 # Store Search Form
 class StoreSearchForm(FlaskForm):
-	code = StringField("Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
+	code = StringField("Store Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
 
 
 # ==================================
@@ -105,6 +105,3 @@ class AdminSearchForm(FlaskForm):
 	username = StringField("Username", validators=[DataRequired()], render_kw={"placeholder": "Enter Username..."})
 
 # ==================================
-# Inventory In
-
-# Inventory Out
