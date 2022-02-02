@@ -1,7 +1,7 @@
 from flask import Flask, redirect, url_for, render_template, request, session, flash, json
 
 from webforms import LoginForm, ProductAddForm, ProductDeleteForm, ProductSearchForm, StoreAddForm, StoreDeleteForm, SupplierAddForm, SupplierDeleteForm, AdminAddForm, AdminDeleteForm, StoreSearchForm, SupplierSearchForm, AdminSearchForm, ProductUpdateForm, StoreUpdateForm, SupplierUpdateForm, AdminUpdateForm
-from datetime import date, datetime
+from datetime import date, datetime, time
 import DBConnection
 import mysql.connector
 from flask_sqlalchemy import SQLAlchemy
@@ -171,7 +171,7 @@ def productdelete():
             cur.execute("SELECT ProductSKU FROM Product WHERE ProductSKU = %s", (sku,))
             exist = cur.fetchall()
             if not exist:
-                flash("Data does not exist! Please enter another product SKU.")
+                flash("SKU does not exist! Please enter another product SKU.")
                 return redirect(url_for("productdelete"))
             else:
                 cur.execute("DELETE FROM Product WHERE ProductSKU = %s", (sku,))
@@ -244,17 +244,85 @@ def productupdate():
     else:
         return redirect(url_for("login"))
 
-# Inventory In (add products from store)
+# Inventory Incoming (receive products from stores)
 @app.route("/inventoryin", methods=["GET", "POST"])
 def inventoryin():
     if "username" in session:
         username = session["username"]
-        return render_template("inventoryin.html")
+        # fetch all store code
+        cur = ksql.cursor()
+        cur.execute("SELECT StoreCode FROM Store")
+        storeexist = cur.fetchall()
+        cur.close()
+
+        # fetch all product sku
+        cur = ksql.cursor()
+        cur.execute("SELECT ProductSKU FROM Product")
+        skuexist = cur.fetchall()
+        cur.close()
+
+        id = request.form.get('id')
+        code = request.form.get('code')
+        sku = request.form.get('sku')
+        name = request.form.get('name')
+        quantity = request.form.get('quantity')
+        today = date.today()
+        curdate = today.strftime("%Y-%m-%d")
+        now = datetime.now()
+        curtime = now.strftime("%H:%M:%S")
+
+        if request.method == "POST":
+            # check for inventory ID
+            cur = ksql.cursor()
+            cur.execute("SELECT InventoryID FROM Inventory WHERE InventoryID = %s", (id,))
+            exist = cur.fetchall()
+            cur.close()
+            # check if inventory id exist
+            if not exist:
+                empty = 0
+                # insert new inventory id
+                cur = ksql.cursor()
+                cur.execute("INSERT INTO Inventory (InventoryID, StoreCode, ProductSKU, ProductName, QuantityCurrent, DateIn, TimeIn, QuantityOutgoing) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (id, code, sku, name, quantity, curdate, curtime, empty))
+                ksql.commit()
+                cur.close()
+                flash("Successfully sent products!")
+                return redirect(url_for("productmenu"))
+            elif not quantity or not quantity.isnumeric() or int(quantity) <= 0:
+                flash("Please enter a valid quantity.")
+                return render_template("inventoryin.html", storeexist=storeexist, skuexist=skuexist)
+            elif not skuexist:
+                flash("SKU does not exist! Please enter another product SKU.")
+                return render_template("inventoryin.html", storeexist=storeexist, skuexist=skuexist)
+            else:
+                # check for inventory ID
+                cur = ksql.cursor()
+                cur.execute("SELECT InventoryID FROM Inventory WHERE InventoryID = %s", (id,))
+                cur.fetchone()
+                cur.close()
+                if request.method == "POST":
+                    cur = ksql.cursor()
+                    cur.execute("SELECT QuantityCurrent FROM Inventory WHERE InventoryID = %s", (id,))
+                    dataout = cur.fetchone()
+                    result = int(quantity) + int(dataout[0])
+                    cur.close()
+
+                    cur = ksql.cursor()
+                    cur.execute("Update Inventory SET QuantityCurrent = %s, DateIn = %s, TimeIn = %s WHERE InventoryID = %s", (result, curdate, curtime ,id))
+                    ksql.commit()
+                    cur.close()
+                    flash("Inventory Incoming Updated!")
+                    return redirect(url_for("productmenu"))
+                else:
+                    flash("Error")
+                    return render_template("inventoryin.html", storeexist=storeexist, skuexist=skuexist)
+        else:
+            return render_template("inventoryin.html", storeexist=storeexist, skuexist=skuexist)
     else:
         return redirect(url_for("login"))
 
 
-# Inventory Out (send products to stores)
+
+# Inventory Outgoing (receive products from stores)
 @app.route("/inventoryout", methods=["GET", "POST"])
 def inventoryout():
     if "username" in session:
@@ -264,44 +332,79 @@ def inventoryout():
         cur.execute("SELECT StoreCode FROM Store")
         storeexist = cur.fetchall()
         cur.close()
-        if request.method == "POST" or request.method == "GET":
-            id = request.form.get('id')
-            code = request.form.get('code')
-            sku = request.form.get('sku')
-            name = request.form.get('name')
-            type = request.form.get('type')
-            quantity = request.form.get('quantity')
-            today = date.today()
-            curdate = today.strftime("%Y-%m-%d")
 
-            # check for product SKU
+        # fetch all product sku
+        cur = ksql.cursor()
+        cur.execute("SELECT ProductSKU FROM Product")
+        skuexist = cur.fetchall()
+        cur.close()
+
+        id = request.form.get('id')
+        code = request.form.get('code')
+        sku = request.form.get('sku')
+        name = request.form.get('name')
+        quantity = request.form.get('quantity')
+        today = date.today()
+        curdate = today.strftime("%Y-%m-%d")
+        now = datetime.now()
+        curtime = now.strftime("%H:%M:%S")
+
+        if request.method == "POST":
+            # check for inventory ID
             cur = ksql.cursor()
-            cur.execute("SELECT ProductSKU FROM Product WHERE ProductSKU = %s", (sku,))
-            skuexist = cur.fetchall()
+            cur.execute("SELECT InventoryID FROM Inventory WHERE InventoryID = %s", (id,))
+            exist = cur.fetchall()
             cur.close()
-
-            if request.method == "POST":
+            # check if inventory id exist
+            if not exist:
+                # insert new inventory id
+                # should enter a valid inventory out id
                 cur = ksql.cursor()
                 cur.execute(
-                    "INSERT INTO Inventory (InventoryID, StoreCode, ProductSKU, ProductName, ProductType, Quantity, Date) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                    (id, code, sku, name, type, quantity, curdate))
+                    "INSERT INTO Inventory (InventoryID, StoreCode, ProductSKU, ProductName, QuantityOutgoing, DateOut, TimeOut) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                    (id, code, sku, name, quantity, curdate, curtime))
                 ksql.commit()
                 cur.close()
                 flash("Successfully sent products!")
                 return redirect(url_for("productmenu"))
+            elif not quantity or not quantity.isnumeric() or int(quantity) <= 0:
+                flash("Please enter a valid quantity.")
+                return render_template("inventoryout.html", storeexist=storeexist, skuexist=skuexist)
             elif not skuexist:
-                flash("SKU does not exist. Please enter another product SKU.")
-                return render_template("inventoryout.html", skuexist=skuexist, storeexist=storeexist, id=id, code=code, sku=sku, name=name, type=type, quantity=quantity)
-            elif not storeexist:
-                flash("Please select a store code!")
-                return render_template("inventoryout.html", skuexist=skuexist, storeexist=storeexist, id=id, code=code, sku=sku, name=name, type=type, quantity=quantity)
-            elif not code:
-                flash("Please select a store code!")
-                return render_template("inventoryout.html", skuexist=skuexist, storeexist=storeexist, id=id, code=code, sku=sku, name=name, type=type, quantity=quantity)
+                flash("SKU does not exist! Please enter another product SKU.")
+                return render_template("inventoryout.html", storeexist=storeexist, skuexist=skuexist)
             else:
-                flash("Error occured!")
-                return render_template("inventoryout.html", skuexist=skuexist, storeexist=storeexist, id=id, code=code, sku=sku, name=name, type=type, quantity=quantity)
-        return render_template("inventoryout.html")
+                # check for inventory ID
+                cur = ksql.cursor()
+                cur.execute("SELECT InventoryID FROM Inventory WHERE InventoryID = %s", (id,))
+                cur.fetchone()
+                cur.close()
+                if request.method == "POST":
+                    # delete current quantity
+                    #cur = ksql.cursor()
+                    #cur.execute("SELECT QuantityCurrent FROM Inventory WHERE InventoryID = %s", (id,))
+                    #datain = cur.fetchone()
+                    #resultin = int(datain[0]) - int(quantity)
+                    #cur.close()
+
+                    # record outgoing quantity
+                    cur = ksql.cursor()
+                    cur.execute("SELECT QuantityOutgoing FROM Inventory WHERE InventoryID = %s", (id,))
+                    dataout = cur.fetchone()
+                    resultout = int(quantity) + int(dataout[0])
+                    cur.close()
+
+                    cur = ksql.cursor()
+                    cur.execute("Update Inventory SET QuantityOutgoing = %s, DateOut = %s, TimeOut = %s WHERE InventoryID = %s", (resultout, curdate, curtime, id))
+                    ksql.commit()
+                    cur.close()
+                    flash("Inventory Outgoing Updated!")
+                    return redirect(url_for("productmenu"))
+                else:
+                    flash("Error")
+                    return render_template("inventoryout.html", storeexist=storeexist, skuexist=skuexist)
+        else:
+            return render_template("inventoryout.html", storeexist=storeexist, skuexist=skuexist)
     else:
         return redirect(url_for("login"))
 
@@ -649,7 +752,7 @@ def adminupdate():
 def viewstock():
     if "username" in session:
         username = session["username"]
-        headings = ("StockSKU", "StockName", "Reason", "Date")
+        headings = ("StockSKU", "StockName", "Supplier Code", "Date", "Time")
         cur = ksql.cursor(buffered=True)
         cur.execute("SELECT * FROM Stock LIMIT 1")
         exist = cur.fetchall()
@@ -657,7 +760,7 @@ def viewstock():
             flash("No stocks in the warehouse!")
             return redirect(url_for("adminhome"))
         else:
-            cur.execute("SELECT * FROM Stock")
+            cur.execute("SELECT StockSKU, StockName, SupplierCode, DateIn, TimeIn FROM Stock")
             data = cur.fetchall()
             return render_template("viewstock.html", headings=headings, data=data)
         # return render_template("adminhome.html")
@@ -678,17 +781,21 @@ def adminprofile():
     else:
         return redirect(url_for("login"))
 
-
+# View Admin Profile
 @app.route("/supervisorprofile", methods=["GET", "POST"])
 def supervisorprofile():
     if "username" in session:
         username = session["username"]
         cur = ksql.cursor(buffered=True)
-        cur.execute("SELECT * FROM Supervisor WHERE Username = %s", (username,))
-        userfound = cur.fetchall()
+        cur.execute("SELECT Username, FullName, SupervisorPW, SupervisorPhone, SupervisorAddress, SupervisorEmail FROM Supervisor WHERE Username = %s", (username,))
+        userfound = cur.fetchone()
+        ksql.commit()
         return render_template("supervisorprofile.html", userfound=userfound)
     else:
         return redirect(url_for("login"))
+
+# ===========================
+# Adjustment Outgoing
 
 
 if __name__ =="__main__":

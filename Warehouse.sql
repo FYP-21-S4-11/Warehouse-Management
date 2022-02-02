@@ -43,33 +43,44 @@ CREATE TABLE `Store` (
   PRIMARY KEY (`StoreCode`));
 
 CREATE TABLE `Inventory` (
-  `InventoryID` VARCHAR(255) NOT NULL,
-  `StoreCode` VARCHAR(255) NOT NULL,
-  `ProductSKU` VARCHAR(255) NOT NULL,
-  `ProductName` VARCHAR(255) DEFAULT NULL,
-  `ProductType` VARCHAR(255) DEFAULT NULL,
-  `Reason` VARCHAR(255) DEFAULT NULL,
-  `Quantity` INT DEFAULT NULL,
-  `Date` DATE DEFAULT NULL,
+  `InventoryID` varchar(255) NOT NULL,
+  `StoreCode` varchar(255) NOT NULL,
+  `ProductSKU` varchar(255) NOT NULL,
+  `ProductName` varchar(255) DEFAULT NULL,
+  `Reason` varchar(255) DEFAULT NULL,
+  `QuantityCurrent` int DEFAULT NULL,
+  `DateIn` date DEFAULT NULL,
+  `TimeIn` time DEFAULT NULL,
+  `QuantityOutgoing` varchar(255) DEFAULT NULL,
+  `DateOut` date DEFAULT NULL,
+  `TimeOut` time DEFAULT NULL,
   PRIMARY KEY (`InventoryID`),
   KEY `ProductSKU` (`ProductSKU`),
   KEY `StoreCode` (`StoreCode`),
+  KEY `ProductName` (`ProductName`),
   CONSTRAINT `ProductSKU` FOREIGN KEY (`ProductSKU`) REFERENCES `Product` (`ProductSKU`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `StoreCode` FOREIGN KEY (`StoreCode`) REFERENCES `Store` (`StoreCode`) ON DELETE CASCADE ON UPDATE CASCADE);
+  CONSTRAINT `StoreCode` FOREIGN KEY (`StoreCode`) REFERENCES `Store` (`StoreCode`) ON DELETE CASCADE ON UPDATE CASCADE
+));
+
+CREATE TABLE `Stock` (
+  `StockSKU` varchar(255) NOT NULL,
+  `StockName` varchar(255) DEFAULT NULL,
+  `SupplierCode` varchar(255) DEFAULT NULL,
+  `Reason` varchar(255) DEFAULT NULL,
+  `QuantityCurrent` int DEFAULT NULL,
+  `DateIn` date DEFAULT NULL,
+  `TimeIn` time DEFAULT NULL,
+  `QuantityOutgoing` int DEFAULT NULL,
+  `DateOut` date DEFAULT NULL,
+  `TimeOut` time DEFAULT NULL,
+  PRIMARY KEY (`StockSKU`)
+));
 
 CREATE TABLE `Report` (
   `ReportCode` VARCHAR(255) NOT NULL,
   `Start-Date` DATE DEFAULT NULL,
   `End-Date` DATE DEFAULT NULL,
   PRIMARY KEY (`ReportCode`));
-
-CREATE TABLE `Stock` (
-  `StockSKU` VARCHAR(255) NOT NULL,
-  `StockName` VARCHAR(255) DEFAULT NULL,
-  `Reason` VARCHAR(255) DEFAULT NULL,
-  `Date` DATE DEFAULT NULL,
-  PRIMARY KEY (`StockSKU`));
-
 
 /*
 CREATE TABLE `User` (

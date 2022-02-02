@@ -6,21 +6,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-    <title>{% block title %}Admin Menu Page{% endblock %}</title>
+    <title>{% block title %}Inventory Outgoing Page{% endblock %}</title>
     <style>
         .container{
         margin-right: auto;
         margin-left: auto;
+        width: 40%;
         }
         .header {
         padding: 30px;
-        margin-left: 90px;
+        width: 50%;
         }
     </style>
 
 </head>
 <body>
-
 <!--    navigation bar-->
 <nav class="navbar bg-steel">
 <a class="navbar-brand" href="{{ url_for('supervisorhome') }}">Warehouse Management</a>
@@ -39,7 +39,7 @@
 </div>
 <div class="container">
 <div class="header">
-    <h1><strong>{% block header %}Admin Menu{% endblock %}</strong></h1>
+    <h1><strong>{% block header %}Inventory Outgoing{% endblock %}</strong></h1>
 </div>
 <br>
 
@@ -52,20 +52,30 @@
         {{mess}}
         </div>
       {% endfor %}
-    {% block content %}
-    <div class="manage">
-        <div class="row">
-            <br><br>
-            <a href="/adminadd" name="myButton" class = "menupages"><span>Add Admin</span></a>
-            <br><br><br>
-            <a href="/adminupdate" name="myButton" class="menupages"><span>Update Admin</span></a>
-            <br><br><br>
-            <a href="/admindelete" name="myButton" class="menupages"><span>Delete Admin</span></a>
-            <br><br><br>
-            <a href="/adminsearch" name="myButton" class="menupages"><span>View Admin</span></a>
-        </div>
-    </div>
-    {% endblock %}
+    <form action = "/inventoryout" method = "POST">
+        <label class="form-label" >Inventory ID:</label>
+        <p><input class="form-control" type="text" name="id"></p>
+        <br>
+        <label class="form-label">Store Code:</label>
+        <select class="form-control form-select" name="code">
+        {% for store in storeexist %}
+        <option value="{{ store[0] }}">{{ store[0] }}</option>
+        {% endfor %}
+        </select>
+        <br>
+        <label class="form-label">Product SKU:</label>
+        <p><input class="form-control" type="text" name="sku"></p>
+        <br>
+        <label class="form-label">Product Name:</label>
+        <p><input class="form-control" type="text" name="name"></p>
+        <br>
+        <label class="form-label">Quantity:</label>
+        <p><input class="form-control" type="text" name="quantity"></p>
+        <br>
+        <button type="submit" name="button" class="button">Submit</button>
+        <br><br>
+        <a href="/productmenu">Return to previous page</a>
+    </form>
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

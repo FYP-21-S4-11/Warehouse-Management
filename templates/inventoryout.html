@@ -54,7 +54,7 @@
       {% endfor %}
     <form action = "/inventoryout" method = "POST">
         <label class="form-label" >Inventory ID:</label>
-        <p><input class="form-control" type="text" value="{{ request.form['id'] }}" name="id"></p>
+        <p><input class="form-control" type="text" name="id"></p>
         <br>
         <label class="form-label">Store Code:</label>
         <select class="form-control form-select" name="code">
@@ -64,16 +64,18 @@
         </select>
         <br>
         <label class="form-label">Product SKU:</label>
-        <p><input class="form-control" type="text" value="{{ request.form['sku'] }}" name="sku"></p>
+        <!--<p><input class="form-control" type="text" name="sku"></p>-->
+        <select class="form-control form-select" name="sku">
+        {% for sku in skuexist %}
+        <option value="{{ sku[0] }}">{{ sku[0] }}</option>
+        {% endfor %}
+        </select>
         <br>
         <label class="form-label">Product Name:</label>
-        <p><input class="form-control" type="text" value="{{ request.form['name'] }}" name="name"></p>
-        <br>
-        <label class="form-label">Product Type:</label>
-        <p><input class="form-control" type="text" value="{{ request.form['type'] }}" name="type"></p>
+        <p><input class="form-control" type="text" name="name"></p>
         <br>
         <label class="form-label">Quantity:</label>
-        <p><input class="form-control" type="text" value="{{ request.form['quantity'] }}" name="quantity"></p>
+        <p><input class="form-control" type="text" name="quantity"></p>
         <br>
         <button type="submit" name="button" class="button">Submit</button>
         <br><br>

@@ -26,16 +26,16 @@
 <a class="navbar-brand" href="{{ url_for('supervisorhome') }}">Warehouse Management</a>
   <div id="navbarNav">
     <ul class="navbar-nav" id="navbarUL">
-        <li class="nav-item navBarIL"><a class="nav-link navA" href="{{ url_for('supervisorhome') }}">Profile</a></li>
+        <li class="nav-item navBarIL"><a class="nav-link navA" href="{{ url_for('supervisorprofile') }}">Profile</a></li>
         <li class="nav-item navBarIL"><a class="nav-link navA" href="{{ url_for('logout') }}">Logout</a></li>
     </ul>
   </div>
 </nav>
 <div class="sidebar">
     <a class="active" href="{{ url_for('adminmenu') }}">Admin</a>
-    <a class="active" href="{{ url_for('supervisorhome') }}">Adjustments</a>
-    <a class="active" href="{{ url_for('supervisorhome') }}">Stock</a>
-    <a class="active" href="{{ url_for('supervisorhome') }}">Report</a>
+    <a class="active" href="{{ url_for('adjustmentout') }}">Adjustments</a>
+    <a class="active" href="{{ url_for('viewstockreturn') }}">Stock Return</a>
+    <a class="active" href="{{ url_for('viewreport') }}">Report</a>
 </div>
 <div class="container">
 <div class="header">

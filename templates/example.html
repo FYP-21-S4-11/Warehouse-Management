@@ -6,44 +6,43 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-    <title>{% block title %}Admin Menu Page{% endblock %}</title>
+    <title>{% block title %}Example add/delete inventory{% endblock %}</title>
     <style>
         .container{
         margin-right: auto;
         margin-left: auto;
+        width: 40%;
         }
         .header {
         padding: 30px;
-        margin-left: 90px;
+        width: 50%;
         }
     </style>
 
 </head>
 <body>
-
 <!--    navigation bar-->
 <nav class="navbar bg-steel">
-<a class="navbar-brand" href="{{ url_for('supervisorhome') }}">Warehouse Management</a>
+<a class="navbar-brand" href="{{ url_for('adminhome') }}">Warehouse Management</a>
   <div id="navbarNav">
     <ul class="navbar-nav" id="navbarUL">
-        <li class="nav-item navBarIL"><a class="nav-link navA" href="{{ url_for('supervisorprofile') }}">Profile</a></li>
+        <li class="nav-item navBarIL"><a class="nav-link navA" href="{{ url_for('adminprofile') }}">Profile</a></li>
         <li class="nav-item navBarIL"><a class="nav-link navA" href="{{ url_for('logout') }}">Logout</a></li>
     </ul>
   </div>
 </nav>
 <div class="sidebar">
-    <a class="active" href="{{ url_for('adminmenu') }}">Admin</a>
-    <a class="active" href="{{ url_for('adjustmentout') }}">Adjustments</a>
-    <a class="active" href="{{ url_for('viewstockreturn') }}">Stock Return</a>
-    <a class="active" href="{{ url_for('viewreport') }}">Report</a>
+    <a class="active" href="{{ url_for('productmenu') }}">Product</a>
+    <a class="active" href="{{ url_for('suppliermenu') }}">Supplier</a>
+    <a class="active" href="{{ url_for('storemenu') }}">Store</a>
+    <a class="active" href="{{ url_for('viewstock') }}">Stock</a>
 </div>
 <div class="container">
 <div class="header">
-    <h1><strong>{% block header %}Admin Menu{% endblock %}</strong></h1>
+    <h1><strong>{% block header %}Example add/delete inventory{% endblock %}</strong></h1>
 </div>
 <br>
-
-  {# get_flashed_messages() is auto sent to the template with the flash() call #}
+      {# get_flashed_messages() is auto sent to the template with the flash() call #}
       {% for mess in get_flashed_messages()  %}
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <button type="button" class="fade-close close" data-dismiss="alert" aria-label="Close">
@@ -52,20 +51,14 @@
         {{mess}}
         </div>
       {% endfor %}
-    {% block content %}
-    <div class="manage">
-        <div class="row">
-            <br><br>
-            <a href="/adminadd" name="myButton" class = "menupages"><span>Add Admin</span></a>
-            <br><br><br>
-            <a href="/adminupdate" name="myButton" class="menupages"><span>Update Admin</span></a>
-            <br><br><br>
-            <a href="/admindelete" name="myButton" class="menupages"><span>Delete Admin</span></a>
-            <br><br><br>
-            <a href="/adminsearch" name="myButton" class="menupages"><span>View Admin</span></a>
-        </div>
-    </div>
-    {% endblock %}
+    <form action = "/example" method = "POST">
+        <label class="form-label">Example ID:</label>
+        <p><input class="form-control" type="text" name="id"></p>
+        <label class="form-label">Quantity:</label>
+        <p><input class="form-control" type="text" name="quantity"></p>
+        <button type="submit" name="button" class="button">Submit</button>
+        <br><br>
+    </form>
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
