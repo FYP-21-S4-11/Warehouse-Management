@@ -28,10 +28,6 @@ class ProductUpdateForm(FlaskForm):
 class ProductDeleteForm(FlaskForm):
 	sku = StringField("Product SKU:", validators=[DataRequired()], render_kw={"placeholder": "Enter SKU..."})
 
-# Product Search Form
-class ProductSearchForm(FlaskForm):
-	sku = StringField("Product SKU:", validators=[DataRequired()], render_kw={"placeholder": "Enter SKU..."})
-
 # ==================================
 # Supplier Add Form
 class SupplierAddForm(FlaskForm):
@@ -51,10 +47,6 @@ class SupplierUpdateForm(FlaskForm):
 class SupplierDeleteForm(FlaskForm):
 	code = StringField("Supplier Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
 
-# Supplier Search Form
-class SupplierSearchForm(FlaskForm):
-	code = StringField("Supplier Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
-
 # ==================================
 # Store Add Form
 class StoreAddForm(FlaskForm):
@@ -71,11 +63,6 @@ class StoreUpdateForm(FlaskForm):
 # Store Delete Form
 class StoreDeleteForm(FlaskForm):
 	code = StringField("Store Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
-
-# Store Search Form
-class StoreSearchForm(FlaskForm):
-	code = StringField("Store Code:", validators=[DataRequired()], render_kw={"placeholder": "Enter Code..."})
-
 
 # ==================================
 # Admin Add Form
@@ -98,10 +85,6 @@ class AdminUpdateForm(FlaskForm):
 
 # Admin Delete Form
 class AdminDeleteForm(FlaskForm):
-	username = StringField("Username", validators=[DataRequired()], render_kw={"placeholder": "Enter Username..."})
-
-# Admin Search Form
-class AdminSearchForm(FlaskForm):
 	username = StringField("Username", validators=[DataRequired()], render_kw={"placeholder": "Enter Username..."})
 
 # ==================================
