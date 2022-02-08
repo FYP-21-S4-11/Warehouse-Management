@@ -42,9 +42,10 @@ def login():
             # request username and password
             username = request.form["username"]
             password = request.form["password"]
+            type = request.form["type"]
             # check if username and password exists in database Admin & Supervisor
             cur = ksql.cursor()
-            cur.execute("SELECT * FROM Admin WHERE Username = %s AND AdminPW = %s", (username, password,))
+            cur.execute("SELECT * FROM Admin WHERE Username = %s AND AdminPW = %s AND Type = %s", (username, password, type,))
             record = cur.fetchone()
             if record:
                 session["loggedin"] = True
@@ -55,7 +56,7 @@ def login():
                 flash("Incorrect Username/Password! Please Try Again.")
                 return render_template("login.html", form=form)
             else:
-                cur.execute("SELECT * FROM Supervisor WHERE Username = %s AND SupervisorPW = %s", (username, password,))
+                cur.execute("SELECT * FROM Supervisor WHERE Username = %s AND SupervisorPW = %s AND Type = %s", (username, password, type,))
                 rec = cur.fetchone()
                 if rec:
                     session["loggedin"] = True
@@ -66,7 +67,6 @@ def login():
                     flash("Incorrect Username/Password! Please Try Again.")
                     return render_template("login.html", form=form)
         return render_template("login.html", form=form)
-
 # Logout
 @app.route("/logout")
 def logout():
@@ -596,7 +596,6 @@ def supplierupdate():
 def adminadd():
     if "username" in session:
         username = session["username"]
-        name=None
         form = AdminAddForm()
         if form.validate_on_submit():
             req = request.form
@@ -606,11 +605,12 @@ def adminadd():
             phone = request.form["phone"]
             email = request.form["email"]
             address = request.form["address"]
+            type = "Admin"
             cur = ksql.cursor()
             cur.execute("SELECT Username FROM Admin WHERE Username = %s", (username,))
             exist = cur.fetchall()
             if not exist:
-                cur.execute("INSERT INTO Admin (FullName, Username, AdminPW, AdminPhone, AdminAddress, AdminEmail) VALUES (%s, %s, %s, %s, %s, %s)", (name, username, password, phone, address, email))
+                cur.execute("INSERT INTO Admin (FullName, Username, AdminPW, AdminPhone, AdminAddress, AdminEmail, Type) VALUES (%s, %s, %s, %s, %s, %s, %s)", (name, username, password, phone, address, email, type))
                 ksql.commit()
                 flash("Admin account created!")
                 return redirect(url_for("adminmenu"))

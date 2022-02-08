@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, BooleanField, ValidationError, TextAreaField, SearchField, IntegerField, DateField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField, ValidationError, TextAreaField, SearchField, IntegerField, DateField, SelectField
 from wtforms.validators import DataRequired, EqualTo, Length
 from flask.views import View
 
@@ -7,6 +7,7 @@ from flask.views import View
 class LoginForm(FlaskForm):
 	username = StringField("Username:", validators=[DataRequired()], render_kw={"placeholder": "Enter Username"})
 	password = PasswordField("Password:", validators=[DataRequired()], render_kw={"placeholder": "Enter Password"})
+	type = SelectField("User:", render_kw={"placeholder": "Enter User Type"}, choices=["Admin", "Supervisor"])
 	submit = SubmitField("Login")
 
 # ==================================
