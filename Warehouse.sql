@@ -8,6 +8,7 @@ CREATE TABLE `Admin` (
   `AdminPhone` varchar(255) DEFAULT NULL,
   `AdminAddress` varchar(255) DEFAULT NULL,
   `AdminEmail` varchar(255) DEFAULT NULL,
+  `Type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Username`));
 
 CREATE TABLE `Supervisor` (
@@ -17,6 +18,7 @@ CREATE TABLE `Supervisor` (
   `SupervisorPhone` varchar(255) DEFAULT NULL,
   `SupervisorAddress` varchar(255) DEFAULT NULL,
   `SupervisorEmail` varchar(255) DEFAULT NULL,
+  `Type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Username`));
 
 CREATE TABLE `Supplier` (
@@ -93,6 +95,7 @@ CREATE TABLE `User` (
   `UserPhone` varchar(255) DEFAULT NULL,
   `UserAddress` varchar(255) DEFAULT NULL,
   `UserEmail` varchar(255) DEFAULT NULL,
+  `UserType` varchar(255) DEFAULT NULL
   PRIMARY KEY (`Username`));
 
 */
