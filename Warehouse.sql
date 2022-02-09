@@ -9,7 +9,8 @@ CREATE TABLE `Admin` (
   `AdminAddress` varchar(255) DEFAULT NULL,
   `AdminEmail` varchar(255) DEFAULT NULL,
   `Type` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`Username`));
+  PRIMARY KEY (`Username`)
+);
 
 CREATE TABLE `Supervisor` (
   `Username` varchar(255) NOT NULL,
@@ -19,27 +20,32 @@ CREATE TABLE `Supervisor` (
   `SupervisorAddress` varchar(255) DEFAULT NULL,
   `SupervisorEmail` varchar(255) DEFAULT NULL,
   `Type` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`Username`));
+  PRIMARY KEY (`Username`)
+);
 
 CREATE TABLE `Supplier` (
   `SupplierCode` varchar(255) NOT NULL,
   `SupplierName` varchar(255) DEFAULT NULL,
   `SupplierPhone` varchar(255) DEFAULT NULL,
   `SupplierAddress` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`SupplierCode`));
+  `SupplierPassword` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`SupplierCode`)
+);
 
 CREATE TABLE `Product` (
   `ProductSKU` varchar(255) NOT NULL,
   `ProductName` varchar(255) DEFAULT NULL,
   `Description` varchar(255) DEFAULT NULL,
   `ProductType` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ProductSKU`));
+  PRIMARY KEY (`ProductSKU`)
+);
 
 CREATE TABLE `Store` (
   `StoreCode` varchar(255) NOT NULL,
   `Location` varchar(255) DEFAULT NULL,
   `Address` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`StoreCode`));
+  PRIMARY KEY (`StoreCode`)
+);
 
 CREATE TABLE `Inventory` (
   `InventoryID` varchar(255) NOT NULL,
@@ -49,7 +55,7 @@ CREATE TABLE `Inventory` (
   `QuantityCurrent` int DEFAULT NULL,
   `DateIn` date DEFAULT NULL,
   `TimeIn` time DEFAULT NULL,
-  `QuantityOutgoing` varchar(255) DEFAULT NULL,
+  `QuantityOutgoing` int DEFAULT NULL,
   `DateOut` date DEFAULT NULL,
   `TimeOut` time DEFAULT NULL,
   `Reason` varchar(255) DEFAULT NULL,
@@ -58,7 +64,8 @@ CREATE TABLE `Inventory` (
   KEY `StoreCode` (`StoreCode`),
   KEY `ProductName` (`ProductName`),
   CONSTRAINT `ProductSKU` FOREIGN KEY (`ProductSKU`) REFERENCES `Product` (`ProductSKU`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `StoreCode` FOREIGN KEY (`StoreCode`) REFERENCES `Store` (`StoreCode`) ON DELETE CASCADE ON UPDATE CASCADE);
+  CONSTRAINT `StoreCode` FOREIGN KEY (`StoreCode`) REFERENCES `Store` (`StoreCode`) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 CREATE TABLE `Stock` (
   `StockSKU` varchar(255) NOT NULL,
@@ -73,7 +80,8 @@ CREATE TABLE `Stock` (
   `Reason` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`StockSKU`),
   KEY `SupplierCode_idx` (`SupplierCode`),
-  CONSTRAINT `SupplierCode` FOREIGN KEY (`SupplierCode`) REFERENCES `Supplier` (`SupplierCode`) ON DELETE CASCADE ON UPDATE CASCADE);
+  CONSTRAINT `SupplierCode` FOREIGN KEY (`SupplierCode`) REFERENCES `Supplier` (`SupplierCode`) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 CREATE TABLE `Report` (
   `ReportID` int NOT NULL,
@@ -84,7 +92,8 @@ CREATE TABLE `Report` (
   `Description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ReportID`),
   KEY `InventoryID` (`InventoryID`),
-  CONSTRAINT `InventoryID` FOREIGN KEY (`InventoryID`) REFERENCES `Inventory` (`InventoryID`) ON DELETE CASCADE ON UPDATE CASCADE);
+  CONSTRAINT `InventoryID` FOREIGN KEY (`InventoryID`) REFERENCES `Inventory` (`InventoryID`) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 
 /*

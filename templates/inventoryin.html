@@ -52,6 +52,7 @@
         {{mess}}
         </div>
       {% endfor %}
+    {% block content %}
     <form action = "/inventoryin" method = "POST">
         <label class="form-label" >Inventory ID:</label>
         <p><input class="form-control" type="text" name="id"></p>
@@ -84,6 +85,7 @@
         <br><br>
         <a href="/productmenu">Return to previous page</a>
     </form>
+    {% endblock %}
 </div>
 {% block scripts %}
     <!-- Optional JavaScript -->
