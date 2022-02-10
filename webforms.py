@@ -34,6 +34,7 @@ class ProductDeleteForm(FlaskForm):
 class SupplierAddForm(FlaskForm):
 	code = StringField("Supplier Code:", validators=[DataRequired()])
 	name = StringField("Supplier Name:", validators=[DataRequired()])
+	password = StringField("Supplier Password:", validators=[DataRequired()])
 	phone = StringField("Supplier Phone:", validators=[DataRequired()])
 	address = StringField("Supplier Address:", validators=[DataRequired()])
 
@@ -41,6 +42,7 @@ class SupplierAddForm(FlaskForm):
 class SupplierUpdateForm(FlaskForm):
 	code = StringField("Supplier Code:", validators=[DataRequired()])
 	name = StringField("Supplier Name:", validators=[DataRequired()])
+	password = StringField("Supplier Password:", validators=[DataRequired()])
 	phone = StringField("Supplier Phone:", validators=[DataRequired()])
 	address = StringField("Supplier Address:", validators=[DataRequired()])
 

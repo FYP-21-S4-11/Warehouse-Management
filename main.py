@@ -521,13 +521,14 @@ def supplieradd():
         if form.validate_on_submit():
             code = request.form["code"]
             name = request.form["name"]
+            password = request.form["password"]
             phone = request.form["phone"]
             address = request.form["address"]
             cur = ksql.cursor()
             cur.execute("SELECT SupplierCode FROM Supplier WHERE SupplierCode = %s", (code,))
             exist = cur.fetchall()
             if not exist:
-                cur.execute("INSERT INTO Supplier (SupplierCode, SupplierName, SupplierPhone, SupplierAddress) VALUES (%s, %s, %s, %s)", (code,name, phone, address))
+                cur.execute("INSERT INTO Supplier (SupplierCode, SupplierName, SupplierPhone, SupplierAddress, SupplierPassword) VALUES (%s, %s, %s, %s, %s)", (code,name, phone, address, password))
                 ksql.commit()
                 flash("Supplier added!")
                 return redirect(url_for("suppliermenu"))
@@ -567,7 +568,7 @@ def supplierdelete():
 def supplierview():
     if "username" in session:
         username = session["username"]
-        headings = ("Supplier Code", "Supplier Name", "Supplier Phone", "Supplier Address")
+        headings = ("Supplier Code", "Supplier Name", "Supplier Password", "Supplier Phone", "Supplier Address")
         cur = ksql.cursor(buffered=True)
         cur.execute("SELECT * FROM Supplier LIMIT 1")
         exist = cur.fetchall()
@@ -576,7 +577,7 @@ def supplierview():
             return redirect(url_for("suppliermenu"))
         else:
             cur.execute(
-                "SELECT SupplierCode, SupplierName, SupplierPhone, SupplierAddress FROM Supplier")
+                "SELECT SupplierCode, SupplierName, SupplierPassword, SupplierPhone, SupplierAddress FROM Supplier")
             data = cur.fetchall()
             return render_template("supplierview.html", headings=headings, data=data)
     else:
@@ -591,6 +592,7 @@ def supplierupdate():
         if form.validate_on_submit():
             code = request.form["code"]
             name = request.form["name"]
+            password = request.form["password"]
             phone = request.form["phone"]
             address = request.form["address"]
             cur = ksql.cursor()
@@ -600,7 +602,7 @@ def supplierupdate():
                 flash("Code does not exist! Please enter another supplier code.")
                 return render_template("supplierupdate.html", form=form)
             else:
-                cur.execute("UPDATE Supplier SET SupplierName = %s, SupplierPhone = %s, SupplierAddress = %s WHERE SupplierCode = %s", (name, phone, address, code))
+                cur.execute("UPDATE Supplier SET SupplierName = %s, SupplierPhone = %s, SupplierAddress = %s, SupplierPassword = %s WHERE SupplierCode = %s", (name, phone, address, password, code))
                 ksql.commit()
                 flash("Supplier updated!")
                 return redirect(url_for("suppliermenu"))
