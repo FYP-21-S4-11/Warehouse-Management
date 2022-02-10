@@ -270,11 +270,12 @@ def inventoryin():
             # check if inventory id exist
             try:
                 if not exist:
+                    empty = 0
                     # insert new inventory id
                     cur = ksql.cursor()
                     cur.execute(
-                        "INSERT INTO Inventory (InventoryID, StoreCode, ProductSKU, ProductName, QuantityCurrent, DateIn, TimeIn, Reason) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                        (id, code, sku, name, quantity, curdate, curtime, reason))
+                        "INSERT INTO Inventory (InventoryID, StoreCode, ProductSKU, ProductName, QuantityCurrent, DateIn, TimeIn, QuantityOutgoing, Reason) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                        (id, code, sku, name, quantity, curdate, curtime, empty, reason))
                     ksql.commit()
                     cur.close()
                     flash("Successfully received incoming inventory!")
