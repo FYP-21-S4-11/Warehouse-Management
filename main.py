@@ -49,7 +49,7 @@ def login():
             record = cur.fetchone()
             if record:
                 session["loggedin"] = True
-                session["username"] = record[2]
+                session["username"] = record[0]
                 flash("Logged in successfully!")
                 return redirect(url_for("adminhome"))
             elif not username or not password or not type:
@@ -63,7 +63,7 @@ def login():
                 rec = cur.fetchone()
                 if rec:
                     session["loggedin"] = True
-                    session["username"] = rec[2]
+                    session["username"] = rec[0]
                     flash("Logged in successfully!")
                     return redirect(url_for("supervisorhome"))
                 else:
@@ -616,7 +616,6 @@ def supplierupdate():
 def adminadd():
     if "username" in session:
         username = session["username"]
-        name=None
         form = AdminAddForm()
         if form.validate_on_submit():
             req = request.form
@@ -626,11 +625,12 @@ def adminadd():
             phone = request.form["phone"]
             email = request.form["email"]
             address = request.form["address"]
+            type = "Admin"
             cur = ksql.cursor()
             cur.execute("SELECT Username FROM Admin WHERE Username = %s", (username,))
             exist = cur.fetchall()
             if not exist:
-                cur.execute("INSERT INTO Admin (FullName, Username, AdminPW, AdminPhone, AdminAddress, AdminEmail) VALUES (%s, %s, %s, %s, %s, %s)", (name, username, password, phone, address, email))
+                cur.execute("INSERT INTO Admin (FullName, Username, AdminPW, AdminPhone, AdminAddress, AdminEmail, Type) VALUES (%s, %s, %s, %s, %s, %s, %s)", (name, username, password, phone, address, email, type))
                 ksql.commit()
                 flash("Admin account created!")
                 return redirect(url_for("adminmenu"))

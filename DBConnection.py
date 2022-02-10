@@ -7,7 +7,8 @@ class dbcon:
         password="kafka123@",
         port="3306",
         database="WManage",
-        auth_plugin="mysql_native_password")
+        auth_plugin="mysql_native_password",
+        autocommit=True)
     mycursor = mydb.cursor()
 
     def checkdbconnet(self):
