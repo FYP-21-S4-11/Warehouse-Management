@@ -50,7 +50,7 @@ def login():
             if record:
                 session["loggedin"] = True
                 session["username"] = record[0]
-                flash("Logged in successfully!")
+                flash("Logged in successfully! Welcome, " + username )
                 return redirect(url_for("adminhome"))
             elif not username or not password or not type:
                 flash("Incorrect Username/Password! Please Try Again.")
@@ -64,7 +64,7 @@ def login():
                 if rec:
                     session["loggedin"] = True
                     session["username"] = rec[0]
-                    flash("Logged in successfully!")
+                    flash("Logged in successfully! Welcome, " + username )
                     return redirect(url_for("supervisorhome"))
                 else:
                     flash("Incorrect Username/Password! Please Try Again.")
@@ -791,6 +791,7 @@ def viewreport():
         return redirect(url_for("login"))
 
 # ===========================
+# sending stocks back to suppliers
 # Adjustment Outgoing
 @app.route("/adjustmentout", methods=["GET", "POST"])
 def adjustmentout():
@@ -836,7 +837,7 @@ def adjustmentout():
                         (sku, name, code, empty, quantity, curdate, curtime, reason))
                     ksql.commit()
                     cur.close()
-                    flash("Successfully sent stocks!")
+                    flash("Successfully retuned back stocks!")
                     return redirect(url_for("supervisorhome"))
                 elif not quantity or not quantity.isnumeric() or int(quantity) <= 0:
                     flash("Please enter a valid quantity.")
@@ -859,7 +860,7 @@ def adjustmentout():
                             (result, curdate, curtime, reason, sku))
                         ksql.commit()
                         cur.close()
-                        flash("Outgoing stocks successfully sent!")
+                        flash("Successfully retuned back stocks!")
                         return redirect(url_for("supervisorhome"))
                     else:
                         result = int(dataout[0]) + int(quantity)
@@ -869,7 +870,7 @@ def adjustmentout():
                             (result, curdate, curtime, reason, sku))
                         ksql.commit()
                         cur.close()
-                        flash("Outgoing stocks successfully sent!")
+                        flash("Successfully retuned back stocks!")
                         return redirect(url_for("supervisorhome"))
             except:
                 flash("Please fill in the necessary fields!")
