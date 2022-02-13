@@ -1070,37 +1070,39 @@ def topicsearch():
     if request.method == "POST":
 
     #if form.validate_on_submit():
-        print("not consumed")
+        #print("not consumed")
 
-        topic = request.form["topic"]
-        cur1 = ksql.cursor()
-        consumer = KafkaConsumer(topic, bootstrap_servers=["localhost:9092"],
-                                 auto_offset_reset="earliest", enable_auto_commit=True,
-                                 consumer_timeout_ms=1000,
-                                 value_deserializer=lambda m: json.loads(m.decode("utf-8"))
-                                 )
-        for i in consumer:
-            message = i.value
-            _message = str(message)
-            if "Quantity" in message:
-                msgdct = {"User": message["User"], "Activity": message["Activity"], "time": message["time"],
-                          "Quantity": message["Quantity"], "Product": message["Product"] , "Remark":message["Remark"] }
-                print("test1: " + _message)
-                cur1.execute("INSERT IGNORE INTO topic (user, activity, date, quantity, topic, product, remark) VALUES(%s,%s,%s,%s,%s,%s,%s)",
-                            (msgdct["User"], msgdct["Activity"], msgdct["time"], msgdct["Quantity"], topic, msgdct["Product"], msgdct["Remark"],))
+        #topic = request.form["topic"]
+        #cur1 = ksql.cursor()
+        #consumer = KafkaConsumer(topic, bootstrap_servers=["localhost:9092"],
+                                 #auto_offset_reset="earliest", enable_auto_commit=True,
+                                 #consumer_timeout_ms=1000,
+                                 #value_deserializer=lambda m: json.loads(m.decode("utf-8"))
+                                 #)
+        #for i in consumer:
+            #message = i.value
+            #_message = str(message)
+            #if "Quantity" in message:
+                #msgdct = {"User": message["User"], "Activity": message["Activity"], "time": message["time"],
+                          #"Quantity": message["Quantity"], "Product": message["Product"] , "Remark":message["Remark"] }
+                #print("test1: " + _message)
+                #cur1.execute("INSERT IGNORE INTO topic (user, activity, date, quantity, topic, product, remark) VALUES(%s,%s,%s,%s,%s,%s,%s)",
+                            #(msgdct["User"], msgdct["Activity"], msgdct["time"], msgdct["Quantity"], topic, msgdct["Product"], msgdct["Remark"],))
 
-            else:
-                msgdct = {"User": message["User"], "Activity": message["Activity"], "time": message["time"]}
-                print("test2: " + _message)
-                cur1.execute("INSERT IGNORE INTO topic (user, activity, date, topic) VALUES(%s,%s,%s,%s)",
-                            (msgdct["User"], msgdct["Activity"], msgdct["time"], topic,))
 
-        print(" consumed")
-        ksql.commit()
+            #else:
+                #msgdct = {"User": message["User"], "Activity": message["Activity"], "time": message["time"]}
+                #print("test2: " + _message)
+                #cur1.execute("INSERT IGNORE INTO topic (user, activity, date, topic) VALUES(%s,%s,%s,%s)",
+                            #(msgdct["User"], msgdct["Activity"], msgdct["time"], topic,))
 
-        return redirect(url_for('topicselect', topic = topic))
-    return render_template("topicsearch.html", form=form,  server_status = server_status, len = len(topic),
-                           topic = topic)
+        #print(" consumed")
+        #ksql.commit()
+
+        return redirect(url_for('topicselect'))
+    return render_template("topicsearch.html",  server_status = server_status, len = len(topic), topic = topic)
+
+
 # topic select
 @app.route('/topicselect', methods=['GET', 'POST'])
 def topicselect():
@@ -1136,12 +1138,14 @@ def topicselect():
         heading = ("User", "Date", "Activity")
         cur = ksql.cursor(buffered=True)
         cur.execute("SELECT quantity FROM topic WHERE topic = %s", (topic,))
-        exist = cur.fetchall()
-        if not exist:
+        exist = cur.fetchone()
+        if "None" in str(exist):
+            print(exist)
             cur.execute("SELECT user, date, activity FROM topic WHERE topic = %s", (topic,))
             record = cur.fetchall()
             return render_template("topicselect.html", record=record, heading=heading)
         else:
+            print(exist)
             cur.execute("SELECT user, date, activity, quantity, product, remark FROM topic WHERE topic = %s", (topic,))
             record = cur.fetchall()
             return render_template("topicselect.html", record=record, heading=heading1)
