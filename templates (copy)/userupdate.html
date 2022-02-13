@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %} User Update{% endblock %}
+
+{% block header %} User Update
+<style>
+         .container{
+		width: 40%
+		}
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <form action = "#" method = "POST">
+
+        {{ form.hidden_tag() }}
+        <strong><p>Please enter username of user you want to update</p></strong>
+        {{ form.username.label(class="form-label") }}
+        {{ form.username(class="form-control") }}
+        <br>
+        <strong><p>Please enter new variables to change to</p></strong>
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control") }}
+
+        <br>
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control") }}
+        <br>
+        {{ form.phone.label(class="form-label") }}
+        {{ form.phone(class="form-control") }}
+        <br>
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control") }}
+        <br>
+
+        {{ form.address.label(class="form-label") }}
+        {{ form.address(class="form-control") }}
+        <br>
+        <input type = "Radio" name = "option" value = "Admin" >Admin<br>
+        <br>
+        <input type = "Radio" name = "option" value = "Supervisor" >Supervisor<br>
+
+        <br>
+
+        <button type="submit" name="button1" class="button1">Submit</button>
+        <br><br>
+        <a href="/usermenu">Return to Previous page</a>
+
+    </form>
+{% endblock %}

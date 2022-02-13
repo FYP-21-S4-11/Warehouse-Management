@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %} User Menu {% endblock %}
+
+{% block header %} User Menu
+<style>
+		.myButton {
+	box-shadow:inset 0px 0px 21px 3px #91b8b3;
+	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
+	background-color:#768d87;
+	border-radius:14px;
+	border:3px solid #566963;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:23px;
+	font-weight:bold;
+	padding:25px 100px;
+	text-decoration:none;
+	text-shadow:0px -1px 0px #2b665e;
+}
+.myButton:hover {
+	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
+	background-color:#6c7c7c;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+	</style>
+{% endblock %}
+
+{% block content %}
+<br><br>
+<a href="/adduser" name="myButton" class = "myButton">Add User</a>
+<br><br><br>
+<a href="/userupdate" name="myButton" class="myButton">Update User</a>
+<br><br><br>
+<a href="/userdelete" name="myButton" class="myButton">Delete User</a>
+<br><br><br><br>
+<br><br>
+<a href="/menu" name="myButton" class="myButton">Back</a>
+{% endblock %}
