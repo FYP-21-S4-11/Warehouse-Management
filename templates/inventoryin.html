@@ -56,14 +56,12 @@
     <form action = "/inventoryin" method = "POST" onsubmit="return myFunction()">
         <label class="form-label" >Inventory ID:</label>
         <p><input class="form-control" type="text" name="id" placeholder="Enter ID..."></p>
-        <br>
         <label class="form-label">Store Code:</label>
         <select class="form-control form-select" name="code">
         {% for store in storeexist %}
         <option value="{{ store[0] }}">{{ store[0] }}</option>
         {% endfor %}
         </select>
-        <br>
         <label class="form-label">Product SKU:</label>
         <!--<p><input class="form-control" type="text" name="sku"></p>-->
         <select class="form-control form-select" name="sku">
@@ -71,16 +69,12 @@
         <option value="{{ sku[0] }}">{{ sku[0] }}</option>
         {% endfor %}
         </select>
-        <br>
         <label class="form-label">Product Name:</label>
         <p><input class="form-control" type="text" name="name" placeholder="Enter Product Name..."></p>
-        <br>
         <label class="form-label">Quantity:</label>
         <p><input class="form-control" type="text" name="quantity" placeholder="Enter Quantity..."></p>
-        <br>
         <label class="form-label">Reason:</label>
         <p><textarea class="form-control" name="reason" rows="3" placeholder="Enter Reason..."></textarea></p>
-        <br>
         <button type="submit" name="button" class="button">Submit</button>
         <br><br>
         <a href="/productmenu">Return to previous page</a>

@@ -55,7 +55,7 @@
     {% block content %}
     <form action = "/adjustmentout" method = "POST" onsubmit="return myFunction()">
         <label class="form-label" >Stock SKU:</label>
-        <p><input class="form-control" type="text" name="sku"></p>
+        <p><input class="form-control" type="text" name="sku" placeholder="Enter Stock SKU..."></p>
         <!-- <select class="form-control form-select" name="sku">
         {% for stock in stockexist %}
         <option value="{{ stock[0] }}">{{ stock[0] }}</option>
@@ -63,7 +63,7 @@
         </select>-->
         <br>
         <label class="form-label">Stock Name:</label>
-        <p><input class="form-control" type="text" name="name"></p>
+        <p><input class="form-control" type="text" name="name" placeholder="Enter Stock Name..."></p>
         <br>
         <label class="form-label">Supplier Code:</label>
         <select class="form-control form-select" name="code">
@@ -73,10 +73,10 @@
         </select>
         <br>
         <label class="form-label">Quantity:</label>
-        <p><input class="form-control" type="text" name="quantity"></p>
+        <p><input class="form-control" type="text" name="quantity" placeholder="Enter Quantity..."></p>
         <br>
         <label class="form-label">Reason:</label>
-        <p><textarea class="form-control" name="reason" rows="3"></textarea></p>
+        <p><textarea class="form-control" name="reason" rows="3" placeholder="Enter Reason..."></textarea></p>
         <br>
         <button type="submit" name="button" class="button">Submit</button>
         <br><br>

@@ -6,16 +6,40 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-    <title>{% block title %}Admin Delete Page{% endblock %}</title>
+    <title>{% block title %}Admin View Page{% endblock %}</title>
     <style>
         .container{
         margin-right: auto;
-        margin-left: auto;
-        width: 40%;
+        margin-left: 220px;
+        width: 80%;
         }
         .header {
         padding: 30px;
         width: 50%;
+        }
+        table {
+        border-collapse: collapse;
+        width: 90%;
+        position: relative;
+        margin-right: auto;
+        margin-left: auto;
+        }
+        td, th {
+        #border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        }
+        tr:nth-child(even) {
+        background-color: #f2f2f2;
+        }
+        th {
+        background: white;
+        position: sticky;
+        top: 0;
+        box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+        }
+        .stocks tr:hover {
+        background-color: #ddd;
         }
     </style>
 
@@ -23,23 +47,23 @@
 <body>
 <!--    navigation bar-->
 <nav class="navbar bg-steel">
-<a class="navbar-brand" href="{{ url_for('supervisorhome') }}">Warehouse Management</a>
+<a class="navbar-brand" >Warehouse Management</a>
   <div id="navbarNav">
     <ul class="navbar-nav" id="navbarUL">
-        <li class="nav-item navBarIL"><a class="nav-link navA" href="{{ url_for('supervisorprofile') }}">Profile</a></li>
-        <li class="nav-item navBarIL"><a class="nav-link navA" href="{{ url_for('logout') }}">Logout</a></li>
+        <li class="nav-item navBarIL"><a class="nav-link navA" >Profile</a></li>
+        <li class="nav-item navBarIL"><a class="nav-link navA" >Logout</a></li>
     </ul>
   </div>
 </nav>
 <div class="sidebar">
-    <a class="active" href="{{ url_for('adminmenu') }}">Admin</a>
-    <a class="active" href="{{ url_for('adjustmentout') }}">Adjustments</a>
-    <a class="active" href="{{ url_for('viewstockreturn') }}">Stock Return</a>
-    <a class="active" href="{{ url_for('viewreport') }}">Report</a>
+    <a class="active" >Product</a>
+    <a class="active" >Supplier</a>
+    <a class="active" >Store</a>
+    <a class="active" >Stock</a>
 </div>
 <div class="container">
 <div class="header">
-    <h1><strong>{% block header %}Admin Delete{% endblock %}</strong></h1>
+    <h1><strong>{% block header %}Topic View{% endblock %}</strong></h1>
 </div>
 <br>
 
@@ -52,40 +76,33 @@
         {{mess}}
         </div>
       {% endfor %}
-
-{% block content %}
-    <form action = "#" method = "POST" onsubmit="return myFunction()">
-        <label class="form-label" >Username:</label>
-        <select class="form-control form-select" name="username">
-        {% for ex in exist %}
-        <option value="{{ ex[0] }}">{{ ex[0] }}</option>
-        {% endfor %}
-        </select>
-        <br>
-        <button type="submit" name="button" class="button">Submit</button>
+    {% block content %}
+    <form action = "/topicselect" method = "POST">
+        <table cellpadding="0" cellspacing="0" border="0">
+            <thead>
+            <tr>
+                {% for header in heading %}
+                <th style="background-color: #5f788a; color: white">{{ header }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                {% for rec in record %}
+                <td>{{ rec }}</td>
+                {% endfor %}
+            </tr>
+            </tbody>
+        </table>
         <br><br>
         <a href="/adminmenu">Return to previous page</a>
     </form>
-{% endblock %}
+    {% endblock %}
 </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-{% block scripts %}
-<script>
-function myFunction() {
-  let text = "Press a button!\nConfirm to submit or cancel.";
-  if (confirm(text) == true) {
-    text = "You pressed OK!";
-    return true;
-  } else {
-    text = "You canceled!";
-    return false;
-  }
-}
-</script>
-{% endblock %}
 </body>
 </html>

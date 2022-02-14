@@ -32,6 +32,7 @@ button-lg:hover {
 .bg-steel {
     background-color: #5f788a;
     text-align: center;
+
 }
 .navbar-brand {
     color: white;
@@ -46,6 +47,7 @@ nav {
     flex: 1;
     text-align: right;
     align-items: right;
+
 }
 #navbarUL {
     display: inline-block;
@@ -58,6 +60,7 @@ nav {
 .navA {
     text-decoration: none;
     color: white;
+
 }
 /*sidebar*/
 .sidebar {
@@ -65,9 +68,9 @@ nav {
     padding: 0;
     width: 200px;
     background-color: #f1f1f1;
-    position: fixed;
     height: 100%;
     overflow: hidden;
+    position: fixed;
 }
 .sidebar a {
     display: block;

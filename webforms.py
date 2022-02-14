@@ -7,7 +7,7 @@ from flask.views import View
 class LoginForm(FlaskForm):
 	username = StringField("Username:", validators=[DataRequired()], render_kw={"placeholder": "Enter Username"})
 	password = PasswordField("Password:", validators=[DataRequired()], render_kw={"placeholder": "Enter Password"})
-	type = SelectField("User:", render_kw={"placeholder": "Enter User Type"}, choices=["Admin", "Supervisor"])
+	type = SelectField("Log In As:", render_kw={"placeholder": "Enter User Type"}, choices=["Admin", "Supervisor"])
 	submit = SubmitField("Login")
 
 # ==================================

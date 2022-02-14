@@ -55,9 +55,12 @@
 
 {% block content %}
     <form action = "#" method = "POST" onsubmit="return myFunction()">
-        {{ form.hidden_tag() }}
-        {{ form.sku.label(class="form-label") }}
-        {{ form.sku(class="form-control") }}
+        <label class="form-label" >Product SKU:</label>
+        <select class="form-control form-select" name="sku">
+        {% for ex in exist %}
+        <option value="{{ ex[0] }}">{{ ex[0] }}</option>
+        {% endfor %}
+        </select>
         <br>
         <button type="submit" name="button" class="button">Submit</button>
         <br><br>

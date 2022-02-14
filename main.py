@@ -1,8 +1,9 @@
 from flask import Flask, redirect, url_for, render_template, request, session, flash, json
 from sqlalchemy import null
 from bs_table_py import table
-from flask_table import Table, Col
-from webforms import LoginForm, ProductAddForm, ProductDeleteForm, StoreAddForm, StoreDeleteForm, SupplierAddForm, SupplierDeleteForm, AdminAddForm, AdminDeleteForm, ProductUpdateForm, StoreUpdateForm, SupplierUpdateForm, AdminUpdateForm
+import matplotlib.pyplot as plt
+import numpy as np
+from webforms import LoginForm, ProductAddForm, StoreAddForm, SupplierAddForm, AdminAddForm, ProductUpdateForm, StoreUpdateForm, SupplierUpdateForm, AdminUpdateForm
 from datetime import date, datetime, time
 import DBConnection
 import mysql.connector
@@ -32,6 +33,7 @@ def dtnow():
     str_now = str_now[:-6]
     return str_now
 
+@app.route("/", methods=["GET", "POST"])
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if "username" in session:
@@ -170,21 +172,17 @@ def productadd():
 def productdelete():
     if "username" in session:
         username = session["username"]
-        form = ProductDeleteForm()
-        if form.validate_on_submit():
-            sku = request.form["sku"]
-            cur = ksql.cursor()
-            cur.execute("SELECT ProductSKU FROM Product WHERE ProductSKU = %s", (sku,))
-            exist = cur.fetchall()
-            if not exist:
-                flash("SKU does not exist! Please enter another product SKU.")
-                return redirect(url_for("productdelete"))
-            else:
-                cur.execute("DELETE FROM Product WHERE ProductSKU = %s", (sku,))
-                ksql.commit()
-                flash("Product deleted!")
-                return redirect(url_for("productmenu"))
-        return render_template("productdelete.html", form=form)
+        sku = request.form.get("sku")
+        cur = ksql.cursor()
+        cur.execute("SELECT ProductSKU FROM Product")
+        exist = cur.fetchall()
+        #form = ProductDeleteForm()
+        if request.method == "POST":
+            cur.execute("DELETE FROM Product WHERE ProductSKU = %s", (sku,))
+            ksql.commit()
+            flash("Product deleted!")
+            return redirect(url_for("productmenu"))
+        return render_template("productdelete.html", exist=exist)
     else:
         return redirect(url_for("login"))
 
@@ -449,21 +447,17 @@ def storeadd():
 def storedelete():
     if "username" in session:
         username = session["username"]
-        form = StoreDeleteForm()
-        if form.validate_on_submit():
-            code = request.form["code"]
-            cur = ksql.cursor()
-            cur.execute("SELECT StoreCode FROM Store WHERE StoreCode = %s",(code,))
-            exist = cur.fetchall()
-            if not exist:
-                flash("Code does not exist! Please enter another store code.")
-                return redirect(url_for("storedelete"))
-            else:
-                cur.execute("DELETE FROM Store WHERE StoreCode = %s", (code,))
-                ksql.commit()
-                flash("Store deleted!")
-                return redirect(url_for("storemenu"))
-        return render_template("storedelete.html", form=form)
+        code = request.form.get("code")
+        cur = ksql.cursor()
+        cur.execute("SELECT StoreCode FROM Store")
+        exist = cur.fetchall()
+        # form = StoreDeleteForm()
+        if request.method == "POST":
+            cur.execute("DELETE FROM Store WHERE StoreCode = %s", (code,))
+            ksql.commit()
+            flash("Store deleted!")
+            return redirect(url_for("storemenu"))
+        return render_template("storedelete.html", exist=exist)
     else:
         return redirect(url_for("login"))
 
@@ -545,21 +539,17 @@ def supplieradd():
 def supplierdelete():
     if "username" in session:
         username = session["username"]
-        form = SupplierDeleteForm()
-        if form.validate_on_submit():
-            code = request.form["code"]
-            cur = ksql.cursor()
-            cur.execute("SELECT SupplierCode FROM Supplier WHERE SupplierCode = %s", (code,))
-            exist = cur.fetchall()
-            if not exist:
-                flash("Code does not exist! Please enter another supplier code.")
-                return redirect(url_for("supplierdelete"))
-            else:
-                cur.execute("DELETE FROM Supplier WHERE SupplierCode = %s", (code,))
-                ksql.commit()
-                flash("Supplier deleted!")
-                return redirect(url_for("suppliermenu"))
-        return render_template("supplierdelete.html", form=form)
+        code = request.form.get("code")
+        cur = ksql.cursor()
+        cur.execute("SELECT SupplierCode FROM Supplier")
+        exist = cur.fetchall()
+        # form = SupplierDeleteForm()
+        if request.method == "POST":
+            cur.execute("DELETE FROM Supplier WHERE SupplierCode = %s", (code,))
+            ksql.commit()
+            flash("Supplier deleted!")
+            return redirect(url_for("suppliermenu"))
+        return render_template("supplierdelete.html", exist=exist)
     else:
         return redirect(url_for("login"))
 
@@ -646,21 +636,17 @@ def adminadd():
 def admindelete():
     if "username" in session:
         username = session["username"]
-        form = AdminDeleteForm()
-        if form.validate_on_submit():
-            username = request.form["username"]
-            cur = ksql.cursor()
-            cur.execute("SELECT Username FROM Admin WHERE Username = %s", (username,))
-            exist = cur.fetchall()
-            if not exist:
-                flash("Admin account does not exist! Please enter another username.")
-                return redirect(url_for("admindelete"))
-            else:
-                cur.execute("DELETE FROM Admin WHERE Username = %s", (username,))
-                ksql.commit()
-                flash("Admin deleted!")
-                return redirect(url_for("adminmenu"))
-        return render_template("admindelete.html", form=form)
+        username = request.form.get("username")
+        cur = ksql.cursor()
+        cur.execute("SELECT Username FROM Admin")
+        exist = cur.fetchall()
+        # form = AdminDeleteForm()
+        if request.method == "POST":
+            cur.execute("DELETE FROM Admin WHERE Username = %s", (username,))
+            ksql.commit()
+            flash("Admin deleted!")
+            return redirect(url_for("adminmenu"))
+        return render_template("admindelete.html", exist=exist)
     else:
         return redirect(url_for("login"))
 
@@ -781,16 +767,6 @@ def viewstockreturn():
         return redirect(url_for("login"))
 
 # ===========================
-# View Monthly Report
-@app.route("/viewreport", methods=["GET", "POST"])
-def viewreport():
-    if "username" in session:
-        username = session["username"]
-        return render_template("viewreport.html")
-    else:
-        return redirect(url_for("login"))
-
-# ===========================
 # sending stocks back to suppliers
 # Adjustment Outgoing
 @app.route("/adjustmentout", methods=["GET", "POST"])
@@ -837,7 +813,7 @@ def adjustmentout():
                         (sku, name, code, empty, quantity, curdate, curtime, reason))
                     ksql.commit()
                     cur.close()
-                    flash("Successfully retuned back stocks!")
+                    flash("Successfully sent stocks!")
                     return redirect(url_for("supervisorhome"))
                 elif not quantity or not quantity.isnumeric() or int(quantity) <= 0:
                     flash("Please enter a valid quantity.")
@@ -860,7 +836,7 @@ def adjustmentout():
                             (result, curdate, curtime, reason, sku))
                         ksql.commit()
                         cur.close()
-                        flash("Successfully retuned back stocks!")
+                        flash("Outgoing stocks successfully sent!")
                         return redirect(url_for("supervisorhome"))
                     else:
                         result = int(dataout[0]) + int(quantity)
@@ -870,7 +846,7 @@ def adjustmentout():
                             (result, curdate, curtime, reason, sku))
                         ksql.commit()
                         cur.close()
-                        flash("Successfully retuned back stocks!")
+                        flash("Outgoing stocks successfully sent!")
                         return redirect(url_for("supervisorhome"))
             except:
                 flash("Please fill in the necessary fields!")
@@ -879,6 +855,36 @@ def adjustmentout():
             return render_template("adjustmentout.html", supplyexist=supplyexist, stockexist=stockexist)
     else:
         return redirect(url_for("login"))
+
+# ===========================
+# View Monthly Report
+# gets the inventory in and out
+@app.route("/viewreport", methods=["GET", "POST"])
+def viewreport():
+    # select all product sku
+    cur = ksql.cursor()
+    cur.execute("SELECT ProductSKU FROM Inventory")
+    skuexist = cur.fetchall()
+    cur.close()
+
+    # select all current
+    cur = ksql.cursor()
+    cur.execute("SELECT QuantityCurrent, QuantityOutgoing FROM Inventory")
+    curex = cur.fetchall()
+    cur.close()
+
+    # select all outgoing
+    cur = ksql.cursor()
+    cur.execute("SELECT QuantityOutgoing FROM Inventory")
+    outex = cur.fetchall()
+    cur.close()
+
+    # append values for outgoing to tuple data
+    data = []
+    for total in outex :
+        data.append(total)
+    return render_template("viewreport.html", skuexist=json.dumps(skuexist), curex=json.dumps(curex), data=data)
+
 
 
 if __name__ =="__main__":
